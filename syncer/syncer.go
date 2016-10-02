@@ -688,8 +688,6 @@ func (s *Syncer) Close() {
 
 	s.cancel()
 
-	<-s.done
-
 	closeJobChans(s.jobs)
 
 	s.wg.Wait()
@@ -701,6 +699,8 @@ func (s *Syncer) Close() {
 		s.syncer.Close()
 		s.syncer = nil
 	}
+	
+	<-s.done
 
 	s.closed.Set(true)
 }
